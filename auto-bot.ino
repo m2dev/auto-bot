@@ -20,8 +20,7 @@ char cmd = '0';
 
 //Define led pin
 const int forwardLed = 22;
-const int brakeLed = 26;
-
+const int brakeLed = 23;
 
 void setup() {
 
@@ -54,6 +53,9 @@ void loop() {
     Motor2.run(FORWARD);
     Motor3.run(FORWARD);
     Motor4.run(FORWARD);
+
+    digitalWrite(brakeLed, LOW);
+    digitalWrite(forwardLed, HIGH); 
   }
 
   //Go Backward
@@ -63,6 +65,9 @@ void loop() {
     Motor2.run(BACKWARD);
     Motor3.run(BACKWARD);
     Motor4.run(BACKWARD);
+    
+    digitalWrite(forwardLed, LOW);
+    digitalWrite(brakeLed, HIGH);
   }
 
   //Stop - Brake
@@ -72,6 +77,11 @@ void loop() {
     Motor2.run(RELEASE);
     Motor3.run(RELEASE);
     Motor4.run(RELEASE);
+        
+    digitalWrite(forwardLed, LOW);
+    digitalWrite(brakeLed, HIGH);
+    delay(100);
+    digitalWrite(brakeLed, LOW);
   }
 
   /*Beacuse this is running inside the loop function,
