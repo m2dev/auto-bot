@@ -22,7 +22,6 @@ char cmd = '0';
 const int forwardLed = 22;
 const int brakeLed = 23;
 
-
 void setup() {
 
   //Open serial communications at 9600 baudrate for second serial interface
@@ -55,8 +54,7 @@ void loop() {
     Motor3.run(FORWARD);
     Motor4.run(FORWARD);
 
-    digitalWrite(brakeLed, LOW);
-    digitalWrite(forwardLed, HIGH); 
+    updateLights(1);
   }
 
   //Go Backward
@@ -66,9 +64,8 @@ void loop() {
     Motor2.run(BACKWARD);
     Motor3.run(BACKWARD);
     Motor4.run(BACKWARD);
-
-    digitalWrite(forwardLed, LOW);
-    digitalWrite(brakeLed, HIGH);
+    
+    updateLights(2);
   }
 
   //Stop - Brake
@@ -79,14 +76,33 @@ void loop() {
     Motor3.run(RELEASE);
     Motor4.run(RELEASE);
         
-    digitalWrite(forwardLed, LOW);
-    digitalWrite(brakeLed, HIGH);
-    delay(100);
-    digitalWrite(brakeLed, LOW);
+   updateLights(3);
   }
 
   /*Beacuse this is running inside the loop function,
     we need to set the command to '0' to prevent continous invoking the function run */
   cmd = '0';
 }
+
+/*  Method to turn on and off lights.
+ *  Action 1 : Forward
+ *  Action 2 : Brake
+*/
+void updateLights(int action){
+
+  if (action == 1)
+  {
+    digitalWrite(forwardLed, HIGH);
+    digitalWrite(brakeLed, LOW);
+  } else if (action == 2) {
+    digitalWrite(forwardLed, LOW);
+    digitalWrite(brakeLed, HIGH);
+  } else {
+    digitalWrite(forwardLed, LOW);
+    digitalWrite(brakeLed, HIGH);
+    delay(100);
+    digitalWrite(brakeLed, LOW);
+  }
+} 
+
 
